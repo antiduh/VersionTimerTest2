@@ -27,10 +27,10 @@ namespace VersionedTimer.Tests
         [TestMethod]
         public void DemonstrateUnreliableRecall()
         {
-            int sleepTime = 20;
+            int sleepTime = 15;
             var timer = new VersionedTimer<int>( 0, Callback );
             var runtime = Stopwatch.StartNew();
-            var sleepPhaser = new SleepPhaser( sleepTime, -5.0, 5.0, 0.2 );
+            var sleepPhaser = new SleepPhaser( sleepTime, -5.0, 5.0, 0.1 );
 
             for( long ver = 0; ; ver++ )
             {
