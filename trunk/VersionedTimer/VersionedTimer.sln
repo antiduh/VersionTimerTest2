@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersionedTimer", "VersionedTimer\VersionedTimer.csproj", "{07DE2C6D-B935-43CB-8CCF-6062EA90608B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersionedTimer.Tests", "VersionedTimer.Tests\VersionedTimer.Tests.csproj", "{AB51BD91-44A3-4222-BA87-11A66B880B1B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{07DE2C6D-B935-43CB-8CCF-6062EA90608B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07DE2C6D-B935-43CB-8CCF-6062EA90608B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07DE2C6D-B935-43CB-8CCF-6062EA90608B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07DE2C6D-B935-43CB-8CCF-6062EA90608B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB51BD91-44A3-4222-BA87-11A66B880B1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB51BD91-44A3-4222-BA87-11A66B880B1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB51BD91-44A3-4222-BA87-11A66B880B1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB51BD91-44A3-4222-BA87-11A66B880B1B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
