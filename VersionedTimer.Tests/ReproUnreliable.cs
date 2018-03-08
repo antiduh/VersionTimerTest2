@@ -15,7 +15,7 @@ namespace VersionedTimer.Tests
     {
         private long currentVer;
 
-        private bool reproduced;
+        private volatile bool reproduced;
 
         /// <summary>
         /// Tests unreliable recall by continuously rescheduling a timer, but sleeping between the
