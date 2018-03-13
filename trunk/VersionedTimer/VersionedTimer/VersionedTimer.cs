@@ -199,6 +199,11 @@ namespace VersionedTimer
 
             lock( queue )
             {
+                if( this.disposed )
+                {
+                    return;
+                }
+
                 queue.DeleteTimer( this );
 
                 this.notifyWaitHandle = notifyObject;
