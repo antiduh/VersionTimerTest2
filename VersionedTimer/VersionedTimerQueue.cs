@@ -48,30 +48,22 @@ namespace VersionedTimer
             timer.Period = period;
             timer.Version = version;
 
-            if( timeout == Timeout.InfiniteTimeSpan )
+            if( timeout < TimeSpan.Zero )
             {
-                // We're going to disable the timer. Reset its state and remove it from the list.
-                timer.NextTimeout = Timeout.InfiniteTimeSpan;
-
-                this.timerList.Remove( timer );
-
-                // We're not going to try to postpone the prime timer. It'll fire, we may find
-                // nothing to process, and we'll simply reschedule it for our next lowest timer.
+                throw new ArgumentException( "Timeout must be non-negative." );
             }
-            else
+
+            // We're going to schedule the timer. Calculate its next timeout, make sure it's
+            // in the list, and then make sure our prime timer is scheduled before the new timer.
+
+            timer.NextTimeout = this.timeBase.Elapsed + timeout;
+
+            if( this.timerList.Contains( timer ) == false )
             {
-                // We're going to schedule the timer. Calculate its next timeout, make sure it's
-                // in the list, and then make sure our prime timer is scheduled before the new timer.
-
-                timer.NextTimeout = this.timeBase.Elapsed + timeout;
-
-                if( this.timerList.Contains( timer ) == false )
-                {
-                    this.timerList.Add( timer );
-                }
-
-                EnsurePrimerTimerDueBy( timer.NextTimeout );
+                this.timerList.Add( timer );
             }
+
+            EnsurePrimerTimerDueBy( timer.NextTimeout );
         }
 
         public void DeleteTimer( IVersionedTimer timer )
