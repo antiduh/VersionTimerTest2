@@ -15,7 +15,7 @@ namespace VersionedTimer.Tests
         /// Tests disposing the timer after it has been used, disabled, and all callbacks have finished.
         /// </summary>
         [TestMethod]
-        public void DisposeAfterDisable()
+        public void DisposeAfterSingleShot()
         {
             for( int i = 0; i < 500; i++ )
             {
@@ -29,6 +29,32 @@ namespace VersionedTimer.Tests
                     timer.Change( 10, Timeout.Infinite, 0 );
 
                     Assert.IsTrue( harness.Wait( 5 * 1000 ), "Timer did not fire." );
+                }
+            }
+        }
+
+        /// <summary>
+        /// Tests disposing the timer after it has been used, disabled, and all callbacks have finished.
+        /// </summary>
+        [TestMethod]
+        public void DisposeAfterDisableMultiShot()
+        {
+            for( int i = 0; i < 100; i++ )
+            {
+                VersionedTimer<int> timer;
+                SimpleTimerHarness harness = new SimpleTimerHarness();
+
+                timer = new VersionedTimer<int>( 123, harness.Callback );
+
+                using( timer )
+                {
+                    timer.Change( 10, 10, 0 );
+
+                    Assert.IsTrue( harness.Wait( 5 * 1000 ), "Timer did not fire." );
+                    Assert.IsTrue( harness.Wait( 5 * 1000 ), "Timer did not fire." );
+                    Assert.IsTrue( harness.Wait( 5 * 1000 ), "Timer did not fire." );
+
+                    timer.Change( Timeout.Infinite, Timeout.Infinite, 0 );
                 }
             }
         }
