@@ -58,6 +58,7 @@
     <Compile Include="Parallel.cs" />
     <Compile Include="ReproUnreliable.cs" />
     <Compile Include="RepeatedPostpone.cs" />
+    <Compile Include="Disposal.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VersionedTimer\VersionedTimer.csproj">
