@@ -202,6 +202,7 @@ namespace VersionedTimer
                 queue.DeleteTimer( this );
 
                 this.notifyWaitHandle = notifyObject;
+                this.disposed = true;
             }
         }
 
