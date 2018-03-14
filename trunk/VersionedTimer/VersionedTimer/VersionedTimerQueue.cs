@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace VersionedTimer
 {
@@ -70,10 +67,8 @@ namespace VersionedTimer
 
         public void DeleteTimer( IVersionedTimer timer )
         {
-
             this.timerList.Remove( timer );
         }
-
 
         private void PrimeTimerCallback( object ignored )
         {

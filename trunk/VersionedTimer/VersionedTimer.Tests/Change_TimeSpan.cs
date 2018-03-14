@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VersionedTimer.Tests.Harness;
@@ -26,6 +25,7 @@ namespace VersionedTimer.Tests
         /// A TimeSpan that is slightly more negative than -1 ms, eg, -1.0000..1 ms.
         /// </summary>
         private static TimeSpan nearOneMsPlus;
+
         static Change_TimeSpan()
         {
             var oneTick = TimeSpan.FromTicks( 1 );
@@ -211,7 +211,7 @@ namespace VersionedTimer.Tests
 
                 for( int i = 1; i <= 100; i++ )
                 {
-                    timer.Change( MSecs(100 + i), Timeout.InfiniteTimeSpan, 1 );
+                    timer.Change( MSecs( 100 + i ), Timeout.InfiniteTimeSpan, 1 );
                 }
 
                 timer.Change( MSecs( int.MaxValue ), Timeout.InfiniteTimeSpan, 1 );

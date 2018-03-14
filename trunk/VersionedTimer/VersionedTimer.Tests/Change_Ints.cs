@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VersionedTimer.Tests.Harness;
@@ -107,7 +106,6 @@ namespace VersionedTimer.Tests
                 timer.Change( int.MaxValue, Timeout.Infinite, 1 );
             }
         }
-
 
         [TestMethod]
         public void Change_ViaInts_MultiShot_AllowsPositive()
