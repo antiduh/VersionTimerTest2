@@ -46,7 +46,7 @@ namespace VersionedTimer.Tests.Harness
             this.expectedPeriod = TimeSpan.FromMilliseconds( periodMs );
         }
 
-        public bool Wait( int maxWaitMs )
+        public bool Wait( int maxWaitMs = 5 * 1000 )
         {
             return this.waitHandle.Wait( maxWaitMs );
         }
