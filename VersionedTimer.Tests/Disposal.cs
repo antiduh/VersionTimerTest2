@@ -17,7 +17,7 @@ namespace VersionedTimer.Tests
         [TestMethod]
         public void DisposeAfterSingleShot()
         {
-            for( int i = 0; i < 500; i++ )
+            for( int i = 0; i < 100; i++ )
             {
                 VersionedTimer<int> timer;
                 SimpleTimerHarness harness = new SimpleTimerHarness();
@@ -118,7 +118,7 @@ namespace VersionedTimer.Tests
         [TestMethod]
         public void DisposeDuringCallbackFromUser()
         {
-            for( int i = 0; i < 500; i++ )
+            for( int i = 0; i < 100; i++ )
             {
                 VersionedTimer<int> timer;
 
@@ -149,7 +149,7 @@ namespace VersionedTimer.Tests
         [TestMethod]
         public void DisposeFromCallback()
         {
-            for( int i = 0; i < 500; i++ )
+            for( int i = 0; i < 100; i++ )
             {
                 AutoResetEvent timerDone = new AutoResetEvent( false );
                 VersionedTimer<int> timer = null;
@@ -196,7 +196,6 @@ namespace VersionedTimer.Tests
                     {
                         callbackStarted.Set();
                         callbackCanContinue.WaitOne( 10 * 1000 );
-                        Thread.Sleep( 50 );
                     };
 
                     timer = new VersionedTimer<int>( 123, callback );
