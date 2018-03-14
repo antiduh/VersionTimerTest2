@@ -36,6 +36,10 @@ namespace VersionedTimer.Tests
             excessiveSpan = VTimeout.MaxTimeout + oneTick;
         }
 
+        /// <summary>
+        /// Verifies that the timer allows Changing to infinite TimeSpans for the timeout and the
+        /// period, independently.
+        /// </summary>
         [TestMethod]
         public void Change_ViaTimeSpan_Allows_Infinite()
         {
@@ -49,6 +53,9 @@ namespace VersionedTimer.Tests
             }
         }
 
+        /// <summary>
+        /// Verifies that the timer allows Changing to zero TimeSpans for the timeout and period, independently.
+        /// </summary>
         [TestMethod]
         public void Change_ViaTimeSpan_Allows_Zero()
         {
@@ -61,6 +68,11 @@ namespace VersionedTimer.Tests
                 timer.Change( TimeSpan.Zero, TimeSpan.Zero, 2 );
             }
         }
+
+        /// <summary>
+        /// Verifies the timer throws exceptions when trying to provide excessively large TimeSpans
+        /// to Change.
+        /// </summary>
         [TestMethod]
         public void Change_ViaTimeSpan_DoesNotAllow_ExcessiveSpan()
         {
@@ -86,6 +98,9 @@ namespace VersionedTimer.Tests
             }
         }
 
+        /// <summary>
+        /// Verifies the timer rejects all negative period values that are not Timeout.InfiniteTimeSpan.
+        /// </summary>
         [TestMethod]
         public void Change_ViaTimeSpan_DoesNotAllow_Negative_Period()
         {
@@ -120,6 +135,9 @@ namespace VersionedTimer.Tests
             }
         }
 
+        /// <summary>
+        /// Verifies the timer rejects all negative timeout values that are not Timeout.InfiniteTimeSpan.
+        /// </summary>
         [TestMethod]
         public void Change_ViaTimeSpan_DoesNotAllow_Negative_Timeout()
         {
@@ -153,6 +171,10 @@ namespace VersionedTimer.Tests
                 } );
             }
         }
+
+        /// <summary>
+        /// Verifies that the timer can be configured in a multishot manner for positive values.
+        /// </summary>
         [TestMethod]
         public void Change_ViaTimeSpan_MultiShot_Allows_Positive()
         {
@@ -173,6 +195,9 @@ namespace VersionedTimer.Tests
             }
         }
 
+        /// <summary>
+        /// Verifies the time can be configured in a single-shot manner for positive values.
+        /// </summary>
         [TestMethod]
         public void Change_ViaTimeSpan_SingleShot_Allows_Positive()
         {
@@ -196,6 +221,7 @@ namespace VersionedTimer.Tests
                 timer.Change( VTimeout.MaxTimeout, VTimeout.MaxTimeout, 1 );
             }
         }
+
         private static TimeSpan MSecs( double value )
         {
             return TimeSpan.FromMilliseconds( value );
