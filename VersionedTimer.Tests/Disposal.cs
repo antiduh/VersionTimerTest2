@@ -212,5 +212,22 @@ namespace VersionedTimer.Tests
                 }
             }
         }
+        
+        /// <summary>
+        /// Verifies that disposing the timer multiple times does nothing (disposal is idempotent).
+        /// </summary>
+        [TestMethod]
+        public void Dispose_AllowsMultipleDisposes()
+        {
+            SimpleTimerHarness harness = new SimpleTimerHarness();
+            VersionedTimer<int> timer = new VersionedTimer<int>( 123, harness.Callback );
+
+            timer.Change( 10, Timeout.Infinite, 0 );
+
+            Assert.IsTrue( harness.Wait( 5 * 1000 ), "Timer did not fire." );
+
+            timer.Dispose();
+            timer.Dispose();
+        }
     }
 }
