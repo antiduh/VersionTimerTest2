@@ -245,12 +245,6 @@ namespace VersionedTimer
         }
 
         /// <summary>
-        /// Gets or sets the amount of time to delay before the first invocation of the timer's
-        /// callback. A value of TimeSpan.MaxValue indicates the timer is disabled.
-        /// </summary>
-        TimeSpan IVersionedTimer.Timeout { get; set; }
-
-        /// <summary>
         /// Gets or sets the amount of time to delay between timer invocations. A value of
         /// TimeSpan.MaxValue disables periodic reoccurance.
         /// </summary>

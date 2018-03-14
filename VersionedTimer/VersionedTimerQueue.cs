@@ -52,7 +52,6 @@ namespace VersionedTimer
             }
 
             // First, update the timer's properties.
-            timer.Timeout = timeout;
             timer.Period = period;
             timer.Version = version;
 
