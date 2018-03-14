@@ -65,7 +65,6 @@ namespace VersionedTimer.Tests
         /// disposing it.
         /// </summary>
         [TestMethod]
-        [ExpectedException( typeof( ObjectDisposedException ) )]
         public void VerifyObjectDisposedException()
         {
             VersionedTimer<int> timer;
@@ -83,8 +82,10 @@ namespace VersionedTimer.Tests
                 timer.Dispose();
             }
 
-            // Should throw an exception.
-            timer.Change( 100, 100, 1 );
+            Assert2.Throws<ObjectDisposedException>( () =>
+            {
+                timer.Change( 100, 100, 1 );
+            } );
         }
 
         /// <summary>
