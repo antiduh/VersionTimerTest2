@@ -209,6 +209,10 @@ namespace VersionedTimer
                 this.notifyWaitHandle = notifyObject;
                 this.disposed = true;
             }
+
+            // Guaranteed to call this only once; we check `this.disposed` under the lock so we'll
+            // know we have a consistent value, and we return immediately if we're already disposed.
+            GC.SuppressFinalize( this );
         }
 
         private void ValidateParams( int spec, out TimeSpan span )
