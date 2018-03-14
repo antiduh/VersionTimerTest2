@@ -52,6 +52,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Change_TimeSpan.cs" />
     <Compile Include="Harness\Assert2.cs" />
     <Compile Include="Harness\SimpleTimerHarness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="ReproUnreliable.cs" />
     <Compile Include="RepeatedPostpone.cs" />
     <Compile Include="Disposal.cs" />
+    <Compile Include="Change_Ints.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VersionedTimer\VersionedTimer.csproj">
