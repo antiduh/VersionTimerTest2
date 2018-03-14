@@ -229,5 +229,17 @@ namespace VersionedTimer.Tests
             timer.Dispose();
             timer.Dispose();
         }
+
+        /// <summary>
+        /// Verifies that the Dispose overload that takes a wait handle fails when given a null wait handle.
+        /// </summary>
+        [TestMethod]
+        public void DisposeNotify_Requires_WaitHandle()
+        {
+            SimpleTimerHarness harness = new SimpleTimerHarness();
+            VersionedTimer<int> timer = new VersionedTimer<int>( 123, harness.Callback );
+
+            Assert2.Throws<ArgumentNullException>( () => timer.Dispose( null ) );
+        }
     }
 }
