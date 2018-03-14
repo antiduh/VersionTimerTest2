@@ -43,20 +43,23 @@ namespace VersionedTimer
 
         public void ChangeTimer( IVersionedTimer timer, TimeSpan timeout, TimeSpan period, long version )
         {
-            // First, update the timer's properties.
-            timer.Timeout = timeout;
-            timer.Period = period;
-            timer.Version = version;
+            // Save the elapsed as soon as possible, to keep the accounting accurate.
+            TimeSpan elapsed = this.timeBase.Elapsed;
 
             if( timeout < TimeSpan.Zero )
             {
                 throw new ArgumentException( "Timeout must be non-negative." );
             }
 
+            // First, update the timer's properties.
+            timer.Timeout = timeout;
+            timer.Period = period;
+            timer.Version = version;
+
             // We're going to schedule the timer. Calculate its next timeout, make sure it's
             // in the list, and then make sure our prime timer is scheduled before the new timer.
 
-            timer.NextTimeout = this.timeBase.Elapsed + timeout;
+            timer.NextTimeout = elapsed + timeout;
 
             if( this.timerList.Contains( timer ) == false )
             {
