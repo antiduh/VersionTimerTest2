@@ -31,10 +31,10 @@ namespace VersionedTimer.Tests
                 Thread.Sleep( 500 );
 
                 Assert.IsTrue( harness.Wait( 5 * 1000 ), "Timer never fired." );
-                Assert.AreEqual( harness.ObservedState, 123, "Timer fired with wrong state." );
-                Assert.AreEqual( harness.ObservedVersion, 1, "Timer fired with wrong version." );
-                Assert.AreEqual( harness.Callbacks, 1, "Timer fired wrong number of times." );
-                Assert.AreEqual( harness.TimeoutError.TotalMilliseconds, 0, 30, "Timer timeout was inaccurate." ); 
+                Assert.AreEqual( 123, harness.ObservedState, "Timer fired with wrong state." );
+                Assert.AreEqual( 1, harness.ObservedVersion, "Timer fired with wrong version." );
+                Assert.AreEqual( 1, harness.Callbacks, "Timer fired wrong number of times." );
+                Assert.AreEqual( 0, harness.TimeoutError.TotalMilliseconds, 30, "Timer timeout was inaccurate." ); 
             }
         }
 
@@ -71,12 +71,12 @@ namespace VersionedTimer.Tests
 
                 int numFirings = (int)( ( elapsed.TotalMilliseconds - 75.0 ) / 150.0 ) + 1;
 
-                Assert.AreEqual( harness.ObservedState, 123, "Timer fired with wrong state." );
-                Assert.AreEqual( harness.ObservedVersion, 1, "Timer fired with wrong version." );
-                Assert.AreEqual( harness.Callbacks, numFirings, "Timer fired wrong number of times." );
-                Assert.AreEqual( harness.TimeoutError.TotalMilliseconds, 0, 30, "Timer timeout was inaccurate." );
-                Assert.AreEqual( harness.PeriodErrors.Average( x => x.TotalMilliseconds ), 0, 30, "Timer period was inaccurate." );
-                Assert.AreEqual( harness.PeriodErrors.Max( x => x.TotalMilliseconds ), 0, 30, "Timer period was inaccurate." );
+                Assert.AreEqual( 123, harness.ObservedState, 123, "Timer fired with wrong state." );
+                Assert.AreEqual( 1, harness.ObservedVersion, "Timer fired with wrong version." );
+                Assert.AreEqual( numFirings, harness.Callbacks, "Timer fired wrong number of times." );
+                Assert.AreEqual( 0, harness.TimeoutError.TotalMilliseconds, 30, "Timer timeout was inaccurate." );
+                Assert.AreEqual( 0, harness.PeriodErrors.Average( x => x.TotalMilliseconds ), 30, "Timer period was inaccurate." );
+                Assert.AreEqual( 0, harness.PeriodErrors.Max( x => x.TotalMilliseconds ), 30, "Timer period was inaccurate." );
 
                 Trace.WriteLine( string.Format( 
                     "{0} callbacks occurred in {1:0.000} ms.", 

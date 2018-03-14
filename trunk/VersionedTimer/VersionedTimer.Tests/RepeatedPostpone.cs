@@ -33,9 +33,9 @@ namespace VersionedTimer.Tests
                 // Verify the timer fires exactly once.
                 harness.Wait( 5 * 1000 );
 
-                Assert.AreEqual( harness.Callbacks, 1 );
-                Assert.AreEqual( harness.ObservedState, 456 );
-                Assert.AreEqual( harness.ObservedVersion, count - 1 );
+                Assert.AreEqual( 1, harness.Callbacks );
+                Assert.AreEqual( 456, harness.ObservedState );
+                Assert.AreEqual( count - 1, harness.ObservedVersion );
             }
         }
 
@@ -66,9 +66,9 @@ namespace VersionedTimer.Tests
 
                 timer.Change( Timeout.Infinite, Timeout.Infinite, 0 );
 
-                Assert.AreEqual( harness.Callbacks, 10 );
-                Assert.AreEqual( harness.ObservedState, 456 );
-                Assert.AreEqual( harness.ObservedVersion, count - 1 );
+                Assert.AreEqual( 10, harness.Callbacks );
+                Assert.AreEqual( 456, harness.ObservedState );
+                Assert.AreEqual( count - 1, harness.ObservedVersion );
             }
         }
     }
