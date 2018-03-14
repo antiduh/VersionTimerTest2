@@ -15,7 +15,7 @@ namespace VersionedTimer.Tests
     {
         private long currentVer;
 
-        private volatile bool reproduced;
+        private bool reproduced;
 
         /// <summary>
         /// Tests unreliable recall by continuously rescheduling a timer, but sleeping between the
@@ -30,7 +30,9 @@ namespace VersionedTimer.Tests
             int sleepTime = 15;
             var timer = new VersionedTimer<int>( 0, Callback );
             var runtime = Stopwatch.StartNew();
-            var sleepPhaser = new SleepPhaser( sleepTime, -5.0, 5.0, 0.1 );
+            var sleepPhaser = new SleepPhaser( sleepTime, -1.5, 1.5, 0.05 );
+
+            bool foundRepro;
 
             for( long ver = 0; ; ver++ )
             {
@@ -38,11 +40,12 @@ namespace VersionedTimer.Tests
 
                 lock( this )
                 {
+                    foundRepro = this.reproduced;
                     timer.Change( sleepTime, Timeout.Infinite, ver );
                     this.currentVer = ver;
                 }
 
-                if( reproduced )
+                if( foundRepro )
                 {
                     break;
                 }
@@ -69,6 +72,10 @@ namespace VersionedTimer.Tests
                 if( version < this.currentVer )
                 {
                     reproduced = true;
+                }
+                else
+                {
+                    Thread.SpinWait( 1000 );
                 }
             }
         }
