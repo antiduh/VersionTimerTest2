@@ -235,7 +235,12 @@ namespace VersionedTimer
         {
             if( timeoutSpan != Timeout.InfiniteTimeSpan && timeoutSpan < TimeSpan.Zero )
             {
-                throw new ArgumentException( "Timeout values must be either infinite, zero, or greater than zero." );
+                throw new ArgumentException( "TimeSpan values must be either infinite, zero, or greater than zero." );
+            }
+
+            if( timeoutSpan > VTimeout.MaxTimeout )
+            {
+                throw new ArgumentException( "TimeSpan value is too large. Limit the value to `VTimeout.MaxTimeout`." );
             }
         }
 
