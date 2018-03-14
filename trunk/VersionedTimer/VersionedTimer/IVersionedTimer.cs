@@ -9,8 +9,6 @@ namespace VersionedTimer
 {
     internal interface IVersionedTimer
     {
-        TimeSpan Timeout { get; set; }
-
         TimeSpan Period { get; set; }
 
         long Version { get; set; }
