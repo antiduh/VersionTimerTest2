@@ -62,6 +62,7 @@
     <Compile Include="RepeatedPostpone.cs" />
     <Compile Include="Disposal.cs" />
     <Compile Include="Change_Ints.cs" />
+    <Compile Include="Lifetime.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VersionedTimer\VersionedTimer.csproj">
