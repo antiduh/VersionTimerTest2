@@ -7,7 +7,7 @@ namespace VersionedTimer.Tests
 {
     /// <summary>
     /// Verifies that the versioned timer can demonstrate reproduction of unreliable recall - old
-    /// callbacks occurring right after a timer change. This proves the timer solves the problem it 
+    /// callbacks occurring right after a timer change. This proves the timer solves the problem it
     /// set out to detect.
     /// </summary>
     [TestClass]
@@ -54,15 +54,15 @@ namespace VersionedTimer.Tests
 
             Assert.IsTrue( reproduced, "Failed to reproduce the unreliable recall." );
 
-            Trace.WriteLine( string.Format( 
+            Trace.WriteLine( string.Format(
                     "Reproduced after {0} versions, using sleep phase of {1:0.0} ms vs expected timeout of {2} ms",
                     this.currentVer,
                     sleepPhaser.Current,
-                    sleepTime 
+                    sleepTime
             ) );
         }
 
-        private void Callback(int state, long version )
+        private void Callback( int state, long version )
         {
             lock( this )
             {
@@ -125,7 +125,7 @@ namespace VersionedTimer.Tests
                         this.max *= 1.20;
 
                         Trace.WriteLine( string.Format(
-                            "Increased sleep phase window: Min {0:0.000}, Max {1:0.000} Incr {2:0.000}.", 
+                            "Increased sleep phase window: Min {0:0.000}, Max {1:0.000} Incr {2:0.000}.",
                             min, max, incr
                         ) );
                     }
@@ -137,7 +137,6 @@ namespace VersionedTimer.Tests
                     this.Current = this.baseSleep + this.min;
                 }
             }
-
 
             private void AccurateSleep( double ms )
             {

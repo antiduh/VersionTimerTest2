@@ -59,7 +59,6 @@ namespace VersionedTimer.Tests
             }
         }
 
-
         /// <summary>
         /// Tests that the timer throws an ObjectDisposedException when attempting to use it after
         /// disposing it.
@@ -212,7 +211,7 @@ namespace VersionedTimer.Tests
                 }
             }
         }
-        
+
         /// <summary>
         /// Verifies that disposing the timer multiple times does nothing (disposal is idempotent).
         /// </summary>

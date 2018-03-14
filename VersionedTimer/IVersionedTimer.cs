@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace VersionedTimer
 {
@@ -16,6 +11,5 @@ namespace VersionedTimer
         TimeSpan NextTimeout { get; set; }
 
         void FireTimerCallback( long version );
-        
     }
 }

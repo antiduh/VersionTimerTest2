@@ -21,9 +21,9 @@ namespace VersionedTimer.Tests.Harness
             if( caughtException == null )
             {
                 throw new AssertFailedException(
-                    string.Format( 
-                        "Assert2.Throws failed. No exception was thrown. Expected an exception of type {0} to be thrown.", 
-                        typeof( T ) 
+                    string.Format(
+                        "Assert2.Throws failed. No exception was thrown. Expected an exception of type {0} to be thrown.",
+                        typeof( T )
                     )
                 );
             }

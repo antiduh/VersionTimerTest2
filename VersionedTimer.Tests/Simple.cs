@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using VersionedTimer.Tests.Harness;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Diagnostics;
+using VersionedTimer.Tests.Harness;
 
 namespace VersionedTimer.Tests
 {
@@ -34,7 +34,7 @@ namespace VersionedTimer.Tests
                 Assert.AreEqual( 123, harness.ObservedState, "Timer fired with wrong state." );
                 Assert.AreEqual( 1, harness.ObservedVersion, "Timer fired with wrong version." );
                 Assert.AreEqual( 1, harness.Callbacks, "Timer fired wrong number of times." );
-                Assert.AreEqual( 0, harness.TimeoutError.TotalMilliseconds, 30, "Timer timeout was inaccurate." ); 
+                Assert.AreEqual( 0, harness.TimeoutError.TotalMilliseconds, 30, "Timer timeout was inaccurate." );
             }
         }
 
@@ -57,7 +57,7 @@ namespace VersionedTimer.Tests
                 timer.Change( 75, 150, 1 );
                 watch.Start();
 
-                Thread.Sleep( 75 + 150*4 );
+                Thread.Sleep( 75 + 150 * 4 );
 
                 for( int i = 1; i <= 5; i++ )
                 {
@@ -78,12 +78,11 @@ namespace VersionedTimer.Tests
                 Assert.AreEqual( 0, harness.PeriodErrors.Average( x => x.TotalMilliseconds ), 30, "Timer period was inaccurate." );
                 Assert.AreEqual( 0, harness.PeriodErrors.Max( x => x.TotalMilliseconds ), 30, "Timer period was inaccurate." );
 
-                Trace.WriteLine( string.Format( 
-                    "{0} callbacks occurred in {1:0.000} ms.", 
-                    harness.Callbacks, elapsed.TotalMilliseconds 
+                Trace.WriteLine( string.Format(
+                    "{0} callbacks occurred in {1:0.000} ms.",
+                    harness.Callbacks, elapsed.TotalMilliseconds
                 ) );
             }
         }
-
     }
 }
