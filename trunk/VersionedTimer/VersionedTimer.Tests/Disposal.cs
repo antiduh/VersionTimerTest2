@@ -28,7 +28,7 @@ namespace VersionedTimer.Tests
                 {
                     timer.Change( 10, Timeout.Infinite, 0 );
 
-                    Assert.IsTrue( harness.Wait( 5 * 1000 ), "Timer did not fire." );
+                    Assert.IsTrue( harness.Wait(), "Timer did not fire." );
                 }
             }
         }
@@ -50,9 +50,9 @@ namespace VersionedTimer.Tests
                 {
                     timer.Change( 10, 10, 0 );
 
-                    Assert.IsTrue( harness.Wait( 5 * 1000 ), "Timer did not fire." );
-                    Assert.IsTrue( harness.Wait( 5 * 1000 ), "Timer did not fire." );
-                    Assert.IsTrue( harness.Wait( 5 * 1000 ), "Timer did not fire." );
+                    Assert.IsTrue( harness.Wait(), "Timer did not fire." );
+                    Assert.IsTrue( harness.Wait(), "Timer did not fire." );
+                    Assert.IsTrue( harness.Wait(), "Timer did not fire." );
 
                     timer.Change( Timeout.Infinite, Timeout.Infinite, 0 );
                 }
@@ -76,7 +76,7 @@ namespace VersionedTimer.Tests
             try
             {
                 timer.Change( 10, Timeout.Infinite, 0 );
-                Assert.IsTrue( harness.Wait( 5 * 1000 ), "Timer did not fire." );
+                Assert.IsTrue( harness.Wait(), "Timer did not fire." );
             }
             finally
             {
@@ -224,7 +224,7 @@ namespace VersionedTimer.Tests
 
             timer.Change( 10, Timeout.Infinite, 0 );
 
-            Assert.IsTrue( harness.Wait( 5 * 1000 ), "Timer did not fire." );
+            Assert.IsTrue( harness.Wait(), "Timer did not fire." );
 
             timer.Dispose();
             timer.Dispose();

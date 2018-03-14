@@ -31,7 +31,7 @@ namespace VersionedTimer.Tests
                 }
 
                 // Verify the timer fires exactly once.
-                harness.Wait( 5 * 1000 );
+                harness.Wait();
 
                 Assert.AreEqual( 1, harness.Callbacks );
                 Assert.AreEqual( 456, harness.ObservedState );
@@ -61,7 +61,7 @@ namespace VersionedTimer.Tests
                 // Verify the timer fires repeatedly.
                 for( int i = 0; i < 10; i++ )
                 {
-                    harness.Wait( 5 * 1000 );
+                    harness.Wait();
                 }
 
                 timer.Change( Timeout.Infinite, Timeout.Infinite, 0 );

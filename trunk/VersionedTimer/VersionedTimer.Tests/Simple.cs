@@ -30,7 +30,7 @@ namespace VersionedTimer.Tests
                 // multiple times.
                 Thread.Sleep( 500 );
 
-                Assert.IsTrue( harness.Wait( 5 * 1000 ), "Timer never fired." );
+                Assert.IsTrue( harness.Wait(), "Timer never fired." );
                 Assert.AreEqual( 123, harness.ObservedState, "Timer fired with wrong state." );
                 Assert.AreEqual( 1, harness.ObservedVersion, "Timer fired with wrong version." );
                 Assert.AreEqual( 1, harness.Callbacks, "Timer fired wrong number of times." );
@@ -61,7 +61,7 @@ namespace VersionedTimer.Tests
 
                 for( int i = 1; i <= 5; i++ )
                 {
-                    Assert.IsTrue( harness.Wait( 5 * 1000 ), string.Format( "Timer period #{0} never fired.", i ) );
+                    Assert.IsTrue( harness.Wait(), string.Format( "Timer period #{0} never fired.", i ) );
                 }
 
                 timer.Change( Timeout.Infinite, Timeout.Infinite, 2 );
