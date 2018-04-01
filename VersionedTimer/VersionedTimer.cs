@@ -8,83 +8,43 @@ namespace VersionedTimer
     /// change to the timer.
     /// </summary>
     /// <remarks>
-    /// The design of all timers includes a complication such that timer callbacks may occur while
-    /// the timer user is attempting to change the timer. This can occur because there is a small
-    /// window where the timer may already be running, has not yet begun executing the callback
-    /// function, and the code using the timer calls `Change()` on the timer to postpone or disable it.
+    /// The design of many timers includes a complication such that there is a small window of time
+    /// between when a timer is being changed and when the timer decides to execute the timer's
+    /// callback such that the timer can fire immediately after it has been postponed or disabled by
+    /// a call its Change() method.
     ///
-    /// In this situation, the timer callback might run immediately after it has been postponed or
-    /// recalled entirely. I call this the Unreliable Recall property of timers.
+    /// For instance, consider the following sequence of events:
+    /// - A user schedules the timer to fire in 1000 ms.
+    /// - At millisecond 1000, two things happen simultaneously by chance: one, the timer's
+    ///   implementation makes the decision to execute the callback; two, the user attempts to
+    ///   postpone the timer by calling its Change() method.
+    /// - The Change() code and the scheduling code fight over the timer's internal lock.
+    /// - The scheduling code wins.
+    /// - The scheduling code decides to schedule the timer's callback and releases the lock.
+    /// - The Change() code acquires the lock and postpones the (already running) timer.
+    /// - The timer's callback executes immediately, even though the user just tried to postpone it.
     ///
-    /// The implementation of this timer is such that the callback method can determine if the timer
-    /// callback currently running represents the latest change to the timer. This allows a user to
-    /// unambiguously determine whether a timer invocation is stale or not. This implementation
-    /// guarentees that by ensuring that all callbacks are scheduled under the same lock that is used
-    /// to process Change() requests. If the user of the timer only processes callbacks and calls
-    /// Change under the same lock, then the user of the lock can unambiguously recall timers.
+    /// The reason this is possible is that there is a disconnect between the decision logic in the
+    /// timer and the execution logic in the timer. The timer uses a lock to protect its state when
+    /// it decides to schedule callbacks, and to protect its state when user calls are made to change
+    /// the timer. Since the two operations are separate, it's possible for a timer to be modified
+    /// after its callback has been scheduled, but before it has begun to execute. I deem this the
+    /// 'Unreliable Recall' property of timers.
     ///
-    /// For instance, consider some data structure that is modified under a lock, but is shared
-    /// between the timer and another thread. The invariant is that the timer should fire some amount
-    /// of time after the last modification to the structure, and no sooner; if the data structure is
-    /// modified, the timer must be postponed and any scheduled callbacks must be recalled or
-    /// otherwise aborted. If the timer is changed under the lock by the other thread, its possible
-    /// that the timer callback will still execute - because it was already executing and lost the
-    /// race to the lock, due to the Unreliable Recall property. By maintaining a version number in
-    /// the data structure, and a providing that number to the timer's `Change()` method, it's
-    /// possible to determine if the current callback invocation is the latest - when the timer runs
-    /// it'll provide the version it was last configured with (via `Change()`) when the callback
-    /// method was scheduled for execution. Since this implementation schedules timer callbacks and
-    /// processes `Change()` requests both under the same lock, it's possible to use this timer to
-    /// track such callbacks occuring.
+    /// Fixing the Unreliable Recall property is difficult. Instead, the VersionedTimer provides the
+    /// timer user with just enough information to be able to detect unreliable recalls, thus
+    /// allowing the user to filter out unintended callbacks.
     ///
-    /// Normal timer progression with a simple callback:
-    ///
-    /// - Prime/native timer fires.
-    /// - Timer queue grabs lock X, the lock that protects all timer accounting.
-    /// - Timer queue finds out which timer elapsed.
-    /// - Timer queue drops lock X.
-    /// - Timer queue enqueues threadpool callback.
-    /// - ..time passes
-    /// - Threadpool begins executing timer.
-    /// - Timer user callback grabs lock Y, its own private lock.
-    /// - Timer user callback processes.
-    /// - Timer user callback releases lock Y
-    ///
-    /// A timer can still run after it has been recalled, and you can't keep track of that:
-    ///
-    /// - Prime timer fires, queue enters timer processing.
-    /// - Timer queue grabs lock X.
-    /// - Timer queue finds out which timer elapsed.
-    /// - Timer queue releases lock X.
-    /// - Timer queue enqueues threadpool callback.
-    /// - Timer has not yet reached the part where the timer callback begins running.
-    /// - ....
-    /// - User code grabs lock Y.
-    /// - User code calls change on timer, attempting to recall it.
-    /// - Timer queue grabs lock X
-    /// - Timer queue updates timer.
-    /// - Timer queue releases lock X.
-    /// - User code updates currentTimerVersion += 1
-    /// - User code releases lock Y.
-    /// - ....
-    /// - Timer reaches the part where the timer callback begins running.
-    /// - Timer user callback grabs lock Y.
-    /// - Failure.
-    ///
-    /// Failure occurs because the timer ran after it was recalled, and the user code had everything
-    /// (change and callback) covered by a lock, and yet the user code could not tell that the timer
-    /// that was firing was one that had been recalled.
-    ///
-    /// Fix:
-    /// - Prime/native timer fires.
-    /// - Timer queue grabs lock X, the lock that protects all timer accounting.
-    /// - Timer queue finds out which timer elapsed.
-    /// - Timer queue saves the version number of the current timer while holding the lock.
-    /// - Timer queue drops lock X.
-    /// - Timer queue enqueues threadpool callback, passing the version number it got under the lock.
-    /// - If any user change occurs, it can increment its version under its own lock.
-    /// - When the user callback runs, it can compare its version number with the timer queue's
-    ///   version number and find out if unreliable recall has occurred.
+    /// The timer does this by allowing the user to provide a version number when changing the timer,
+    /// that is in turn provided to the timer's callback. The timer registers the version number
+    /// under the same lock it uses to schedule callbacks. As a result of this design, one of two
+    /// outcomes can happen when user and timer code races:
+    /// - The user's Change() call wins the race to the timer's lock, and the timer is successfully
+    ///   recalled, or:
+    /// - The user's Change() call loses the race to the timer's lock, and so the callback is still
+    ///   scheduled, but the version number won't be changed befor the callback is scheduled, and
+    ///   thus the callback will execute with the previous version number that can then be identified
+    ///   by the user's callback code.
     /// </remarks>
     /// <typeparam name="T"></typeparam>
     public class VersionedTimer<T> : IDisposable, IVersionedTimer
