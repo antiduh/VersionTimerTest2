@@ -233,7 +233,6 @@ namespace VersionedTimer.Tests
             }
         }
 
-
         /// <summary>
         /// Verifies that disposing the timer multiple times does nothing (disposal is idempotent).
         /// </summary>
