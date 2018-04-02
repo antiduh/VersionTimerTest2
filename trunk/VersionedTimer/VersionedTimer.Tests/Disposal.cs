@@ -178,10 +178,10 @@ namespace VersionedTimer.Tests
         }
 
         /// <summary>
-        /// Tests the disposal notify feature.
+        /// Tests the disposal notify feature while a callback is pending.
         /// </summary>
         [TestMethod]
-        public void VerifyDisposalNotify()
+        public void VerifyDisposalNotify_Pending()
         {
             for( int i = 0; i < 100; i++ )
             {
@@ -211,6 +211,28 @@ namespace VersionedTimer.Tests
                 }
             }
         }
+
+        /// <summary>
+        /// Tests the disposal notify feature while no callback is pending.
+        /// </summary>
+        [TestMethod]
+        public void VerifyDisposalNotify_NonePending()
+        {
+            for( int i = 0; i < 100; i++ )
+            {
+                VersionedTimer<int> timer;
+                SimpleTimerHarness harness = new SimpleTimerHarness();
+
+                using( var disposeNotify = new AutoResetEvent( false ) )
+                {
+                    timer = new VersionedTimer<int>( 123, harness.Callback );
+                    timer.Dispose( disposeNotify );
+
+                    Assert.IsTrue( disposeNotify.WaitOne( 5 * 1000 ), "Timer disposal notification did not fire." );
+                }
+            }
+        }
+
 
         /// <summary>
         /// Verifies that disposing the timer multiple times does nothing (disposal is idempotent).
