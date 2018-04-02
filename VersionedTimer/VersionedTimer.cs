@@ -197,7 +197,7 @@ namespace VersionedTimer
             }
         }
 
-        private void DisposeInternal( EventWaitHandle notifyObject )
+        private void DisposeInternal( EventWaitHandle notifyParameter )
         {
             var queue = VersionedTimerQueue.Instance;
 
@@ -208,9 +208,16 @@ namespace VersionedTimer
                     return;
                 }
 
-                queue.DeleteTimer( this );
+                this.notifyWaitHandle = notifyParameter;
 
-                this.notifyWaitHandle = notifyObject;
+                // If the timer is already idle, signal their notification.
+                if( notifyParameter != null && this.runningRefCount == 0 )
+                {
+                    this.notifyWaitHandle.Set();
+                }
+               
+                queue.DeleteTimer( this );
+                
                 this.disposed = true;
             }
 
