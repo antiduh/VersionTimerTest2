@@ -96,6 +96,23 @@ namespace VersionedTimer
             Dispose( null );
         }
 
+        /// <summary>
+        /// Changes the start time and period of the timer using 32-bit integers to specify the
+        /// timeout periods.
+        /// </summary>
+        /// <param name="timeoutMs">
+        /// The amount of time to delay before the first occurance of the timer callback, in
+        /// milliseconds. Specify <see cref="Timeout.Infinite"/> to disable the timer.
+        /// </param>
+        /// <param name="periodMs">
+        /// The amount of time to delay between periodic invocation of the timer, in milliseconds.
+        /// Specify <see cref="Timeout.Infinite"/> to disable periodic signalling.
+        /// </param>
+        /// <param name="version">
+        /// The version number to store with the timer and to invoke callbacks with. Every callback
+        /// that occurs after the change, and only such callbacks, will be invoked with the new
+        /// version value until the next change occurs.
+        /// </param>
         public void Change( int timeoutMs, int periodMs, long version )
         {
             TimeSpan timeout;
@@ -107,6 +124,23 @@ namespace VersionedTimer
             ChangeInternal( timeout, period, version );
         }
 
+        /// <summary>
+        /// Changes the start time and period of the timer using TimeSpan values to specify the
+        /// timeout periods.
+        /// </summary>
+        /// <param name="timeout">
+        /// The amount of time to delay before the first occurance of the timer callback. Specify
+        /// <see cref="Timeout.InfiniteTimeSpan"/> to disable the timer.
+        /// </param>
+        /// <param name="periodMs">
+        /// The amount of time to delay between periodic invocation of the timer. Specify <see
+        /// cref="Timeout.InfiniteTimeSpan"/> to disable periodic signalling.
+        /// </param>
+        /// <param name="version">
+        /// The version number to store with the timer and to invoke callbacks with. Every callback
+        /// that occurs after the change, and only such callbacks, will be invoked with the new
+        /// version value until the next change occurs.
+        /// </param>
         public void Change( TimeSpan timeout, TimeSpan period, long version )
         {
             ValidateParams( timeout );
@@ -115,12 +149,22 @@ namespace VersionedTimer
             ChangeInternal( timeout, period, version );
         }
 
+        /// <summary>
+        /// Disables the timer and releases all resources associated with it. Timer callbacks that
+        /// have already been scheduled but not yet executed may execute after the timer has been disposed.
+        /// </summary>
         public void Dispose()
         {
             DisposeInternal( null );
         }
 
-        // Blocks disposal until all pending callbacks have completed.
+        /// <summary>
+        /// Disables the timer and releases all resources associated with it, and notifies when all
+        /// pending callbacks have been completed. Timer callbacks that have already been scheduled
+        /// but not yet executed may execute after the timer has been disposed, however, all
+        /// callbacks will have completed before the notification is signalled.
+        /// </summary>
+        /// <param name="notifyObject">An event to signal when any and all callbacks have completed.</param>
         public void Dispose( EventWaitHandle notifyObject )
         {
             if( notifyObject == null )
