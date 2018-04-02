@@ -208,12 +208,18 @@ namespace VersionedTimer
                     return;
                 }
 
-                this.notifyWaitHandle = notifyParameter;
-
-                // If the timer is already idle, signal their notification.
-                if( notifyParameter != null && this.runningRefCount == 0 )
+                // If the timer is already idle, then just signal their event now and don't bother
+                // remembering it. Else, we'll signal it when we finally do go idle.
+                if( notifyParameter != null )
                 {
-                    this.notifyWaitHandle.Set();
+                    if( this.runningRefCount == 0 )
+                    {
+                        notifyParameter.Set();
+                    }
+                    else
+                    {
+                        this.notifyWaitHandle = notifyParameter;
+                    }
                 }
                
                 queue.DeleteTimer( this );
