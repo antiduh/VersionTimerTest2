@@ -47,7 +47,7 @@ namespace VersionedTimer
     ///   by the user's callback code.
     /// </remarks>
     /// <typeparam name="T"></typeparam>
-    public class VersionedTimer<T> : IDisposable, IVersionedTimer
+    public sealed class VersionedTimer<T> : IDisposable, IVersionedTimer
     {
         private T state;
 
