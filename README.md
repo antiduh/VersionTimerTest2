@@ -44,12 +44,12 @@ Using the timer is fairly simple:
 public class TimerExample {
     private VersionedTimer<string> timer;
     
-    private long myVersion;
+    private long version;
     private object syncLock;
 
     public TimerExample() {
         this.syncLock = new object();
-        this.myVersion = 0;
+        this.version = 0;
         this.timer = new VersionedTimer<string>( "Timer", TimerCallback );
     }
 
@@ -62,9 +62,9 @@ public class TimerExample {
         }
     }
 
-    private void TimerCallback( string state, long version ) {
+    private void TimerCallback( string state, long callbackVersion ) {
         lock( this.syncLock ) {
-            if( version < this.myVersion ) {
+            if( callbackVersion < this.version ) {
                 // Stale timer callback. Ignore it.
                 return;
             }
